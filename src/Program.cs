@@ -68,7 +68,8 @@ class Program
             messages = new[]
             {
                 new { role = "system", content = "You are a helpful assistant." },
-                new { role = "user", content = $"List {numResults} websites related to {theme}." }
+                new { role = "system", content = "応答は日本語に翻訳して" },
+                new { role = "user", content = $"List {numResults} websites related to {theme}." },
             }
         };
 
@@ -81,6 +82,8 @@ class Program
         if (!response.IsSuccessStatusCode)
         {
             Console.WriteLine("Error: Unable to fetch search results. " + response.StatusCode);
+            var msg = await response.Content.ReadAsStringAsync();
+            Console.WriteLine(msg);
             return new List<string>();
         }
 
@@ -115,6 +118,7 @@ class Program
             messages = new[]
             {
                 new { role = "system", content = "You are a helpful assistant." },
+                new { role = "system", content = "応答は日本語に翻訳して" },
                 new { role = "user", content = $"Summarize the content of the website {url}." }
             }
         };
